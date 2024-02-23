@@ -13,6 +13,8 @@ public class Sec {
             if (x > 0) x = Math.PI - x;
             else x = -Math.PI - x;
         }
+        double eps =  1e-5;
+        if (Math.abs(x - Math.PI / 2) < eps || Math.abs(x + Math.PI / 2) < eps) throw new IllegalArgumentException("The function is not defined for this value");
         double factorial = 1;
         int t = 1;
         for (int k = 0; k < n; k++) {
