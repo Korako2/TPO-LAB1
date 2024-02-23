@@ -1,8 +1,10 @@
 import functions.Sec;
+import util.MathUtils;
 
 public class Main {
     public static void main(String[] args) {
         Sec sec = new Sec();
-        double sec1 = sec.sec(12);
+        MathUtils mathUtils = new MathUtils();
+        System.out.println(mathUtils.calcFactorial(21));
     }
 }
