@@ -6,8 +6,6 @@ public class Main {
     public static void main(String[] args) {
         Sec sec = new Sec();
         MathUtils mathUtils = new MathUtils();
-        long binomialCoefficient = CombinatoricsUtils.binomialCoefficient(50, 20);
-        System.out.println(binomialCoefficient);
-
+        System.out.println(mathUtils.calcEulerNumber(2));
     }
 }

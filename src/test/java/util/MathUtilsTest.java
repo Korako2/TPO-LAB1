@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MathUtilsTest {
 
     private MathUtils mathUtils = new MathUtils();
+
     @Test
     @DisplayName("Calculate factorial")
     void calcFactorial() {
@@ -32,5 +33,32 @@ class MathUtilsTest {
         assertThrows(ArithmeticException.class, () -> mathUtils.calcFactorial(21));
     }
 
+    @Test
+    @DisplayName("Calculate even Euler numbers")
+    void calcEvenEulerNumbers() {
+        assertAll(
+                () -> assertEquals(1, mathUtils.calcEulerNumber(0)),
+                () -> assertEquals(-1, mathUtils.calcEulerNumber(2)),
+                () -> assertEquals(-50521, mathUtils.calcEulerNumber(10))
+        );
+    }
+
+    @Test
+    @DisplayName("Calculate odd Euler numbers")
+    void calcOddEulerNumbers() {
+        assertEquals(0, mathUtils.calcEulerNumber(1));
+    }
+
+    @Test
+    @DisplayName("Should throw IllegalArgumentException if n is negative")
+    void calcEulerNumberNegative() {
+        assertThrows(IllegalArgumentException.class, () -> mathUtils.calcEulerNumber(-1));
+    }
+
+    @Test
+    @DisplayName("Should throw IllegalArgumentException if n is too large")
+    void calcEulerNumberTooLarge() {
+        assertThrows(IllegalArgumentException.class, () -> mathUtils.calcEulerNumber(61));
+    }
 
 }
