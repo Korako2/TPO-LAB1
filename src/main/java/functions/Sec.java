@@ -32,9 +32,9 @@ public class Sec {
 
     private double bringXtoFirstTurnOfCircle(double x) {
         double doublePI = 2 * Math.PI;
-        while (x > doublePI)
+        while (x > Math.PI)
             x = x - doublePI;
-        while (x < -doublePI)
+        while (x < -Math.PI)
             x = x + doublePI;
         return x;
     }

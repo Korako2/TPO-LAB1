@@ -1,7 +1,6 @@
 package functions;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -11,7 +10,7 @@ class SecTest {
     Sec sec = new Sec();
     @ParameterizedTest
     @DisplayName("Check arguments between -pi/2 and pi/2")
-    @ValueSource(doubles = {-Math.PI / 3, Math.PI / 4, 0, 1, -1})
+    @ValueSource(doubles = {-Math.PI / 3, Math.PI / 4, 0, 1, -1 })
     void check(double x) {
         assertAll(
                 () -> assertEquals((double) 1 / Math.cos(x), sec.sec(x, 30), 0.0001)
