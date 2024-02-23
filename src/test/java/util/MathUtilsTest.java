@@ -10,10 +10,6 @@ class MathUtilsTest {
 
     private MathUtils mathUtils = new MathUtils();
     @Test
-    void calcBinomialCoefficient() {
-
-    }
-    @Test
     @DisplayName("Calculate factorial")
     void calcFactorial() {
         assertAll(
@@ -35,4 +31,6 @@ class MathUtilsTest {
     void calcFactorialTooLarge() {
         assertThrows(ArithmeticException.class, () -> mathUtils.calcFactorial(21));
     }
+
+
 }
