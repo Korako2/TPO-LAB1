@@ -1,6 +1,7 @@
 package domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -8,6 +9,7 @@ public class Crowd {
     @Getter
     private Set<Human> humans;
     @Getter
+    @Setter
     private double emotionalUplift;
 
     private final int MAX_EMOTIONAL_UPLIFT = 100;
@@ -15,19 +17,21 @@ public class Crowd {
 
     public Crowd(Set<Human> humans) {
         this.humans = humans;
-        this.emotionalUplift = 0;
+        this.emotionalUplift = calcEmotionalUplift();
     }
 
     public void addHuman(Human human) {
         humans.add(human);
+        emotionalUplift = calcEmotionalUplift();
     }
 
     public void kickHuman(Human human) {
         humans.remove(human);
+        emotionalUplift = calcEmotionalUplift();
     }
-
-    public boolean isContainsHuman(Human human) {
-        return humans.contains(human);
+    public void clearHuman() {
+        humans.clear();
+        emotionalUplift = calcEmotionalUplift();
     }
 
     public int getHumansCount() {
@@ -36,13 +40,17 @@ public class Crowd {
 
     public void increaseEmotionalUplift(int amount) {
         if (amount <= 0) throw new IllegalArgumentException("Amount should be positive");
+        if (amount > 100) throw new IllegalArgumentException("Amount should be less than 100");
         if (emotionalUplift == MAX_EMOTIONAL_UPLIFT) throw new IllegalArgumentException("Emotional uplift is the maximum possible");
+        increaseHumansEmotionalUplift(amount);
         emotionalUplift = calcEmotionalUplift();
     }
 
     public void reduceEmotionalUplift(int amount) {
         if (amount <= 0) throw new IllegalArgumentException("Amount should be positive");
+        if (amount > 100) throw new IllegalArgumentException("Amount should be less than 100");
         if (emotionalUplift == MIN_EMOTIONAL_UPLIFT) throw new IllegalArgumentException("Emotional uplift is the minimum possible");
+        reduceHumansEmotionalUplift(amount);
         emotionalUplift = calcEmotionalUplift();
     }
     private double calcEmotionalUplift() {
@@ -57,7 +65,7 @@ public class Crowd {
         for (Human human : humans) {
             if (human.getPersonalityType().getEmotionalUpliftCoefficient() * amount + human.getEmotionalUplift() > MAX_EMOTIONAL_UPLIFT)
                 human.setEmotionalUplift(MAX_EMOTIONAL_UPLIFT);
-            else human.setEmotionalUplift((int) (human.getPersonalityType().getEmotionalUpliftCoefficient() * amount + human.getEmotionalUplift()));
+            else human.setEmotionalUplift((int) Math.round(human.getPersonalityType().getEmotionalUpliftCoefficient() * amount + human.getEmotionalUplift()));
         }
     }
 
@@ -65,7 +73,7 @@ public class Crowd {
         for (Human human : humans) {
             if (human.getEmotionalUplift() - 1 / human.getPersonalityType().getEmotionalUpliftCoefficient() * amount < MIN_EMOTIONAL_UPLIFT)
                 human.setEmotionalUplift(MIN_EMOTIONAL_UPLIFT);
-            else human.setEmotionalUplift((int) (human.getEmotionalUplift() - 1 / human.getPersonalityType().getEmotionalUpliftCoefficient() * amount));
+            else human.setEmotionalUplift((int) Math.round(human.getEmotionalUplift() - 1 / human.getPersonalityType().getEmotionalUpliftCoefficient() * amount));
         }
     }
     public void cheer() {
@@ -79,7 +87,5 @@ public class Crowd {
             System.out.println("Толпа немного апатична. Нужно что-то, чтобы их взбодрить!");
         }
     }
-
-
 
 }
