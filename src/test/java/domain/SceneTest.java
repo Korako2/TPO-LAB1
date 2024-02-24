@@ -138,6 +138,99 @@ public class SceneTest {
             crowd.reduceEmotionalUplift(50);
             assertEquals(0, crowd.getEmotionalUplift());
         }
+    }
+    @Nested
+    public class HumanTest {
+        private Human human;
+        private Crowd crowd;
+        @BeforeEach
+        public void init() {
+            human = new Human("Мария", PersonalityType.Optimist, 10, 0);
+            crowd = new Crowd(new HashSet<>(Arrays.asList(
+                    new Human("Иван", PersonalityType.Optimist, 10, 0),
+                    new Human("Валерий", PersonalityType.Pessimist, 0, 0),
+                    new Human("Аркадий", PersonalityType.Realist, 5, 0)
+            )));
+        }
 
+        @Test
+        @DisplayName("Check the good message to the crowd")
+        public void addressGoodMessageToCrowdTest() {
+            human.addressMessageToCrowd(crowd, Message.GOOD);
+            assertEquals(15, crowd.getEmotionalUplift());
+        }
+        @Test
+        @DisplayName("Check the bad massage to the crowd")
+        public void addressBadMessageToCrowdTest() {
+            human.addressMessageToCrowd(crowd, Message.BAD);
+            assertEquals(1, crowd.getEmotionalUplift());
+        }
+
+        @Test
+        @DisplayName("Check the neutral message to the crowd")
+        public void addressNeutralMessageToCrowdTest() {
+            human.addressMessageToCrowd(crowd, Message.NEUTRAL);
+            assertEquals(5, crowd.getEmotionalUplift());
+        }
+
+        @Test
+        @DisplayName("Should throw IllegalArgumentException when the crowd is empty")
+        public void checkAddressMessageToEmptyCrowdTest() {
+            Crowd crowd = new Crowd(new HashSet<>());
+            assertThrows(IllegalArgumentException.class, () -> human.addressMessageToCrowd(crowd, Message.GOOD));
+        }
+
+        @Test
+        @DisplayName("Check the good message to the crowd from the podium")
+        public void addressGoodMessageToCrowdFromPodiumTest() {
+            human.addressMessageToCrowdFromPodium(crowd, Message.GOOD);
+            assertEquals(30.33, crowd.getEmotionalUplift(), 0.01);
+        }
+
+        @Test
+        @DisplayName("Check the bad massage to the crowd from the podium")
+        public void addressBadMessageToCrowdFromPodiumTest() {
+            human.addressMessageToCrowdFromPodium(crowd, Message.BAD);
+            assertEquals(0, crowd.getEmotionalUplift(), 0.01);
+        }
+        @Test
+        @DisplayName("Check the neutral message to the crowd from the podium")
+        public void addressNeutralMessageToCrowdFromPodiumTest() {
+            human.addressMessageToCrowdFromPodium(crowd, Message.NEUTRAL);
+            assertEquals(5, crowd.getEmotionalUplift());
+        }
+
+        @Test
+        @DisplayName("Should throw IllegalArgumentException when the crowd is empty and human on the podium")
+        public void checkAddressMessageToEmptyCrowdFromPodiumTest() {
+            Crowd crowd = new Crowd(new HashSet<>());
+            assertThrows(IllegalArgumentException.class, () -> human.addressMessageToCrowd(crowd, Message.GOOD));
+        }
+    }
+
+    @Nested
+    public class PodiumTest {
+        private Podium podium;
+
+        @BeforeEach
+        public void init() {
+            podium = new Podium();
+            Human human = new Human("Максим", PersonalityType.Optimist, 10, 50);
+            podium.setSpeaker(human);
+        }
+
+        @Test
+        @DisplayName("Check the speaker if crowd approval level more than the previous speaker")
+        public void checkSpeakerTest() {
+            Human human = new Human("Мария", PersonalityType.Optimist, 10, 60);
+            podium.setSpeaker(human);
+            assertEquals(human, podium.getSpeaker());
+        }
+        @Test
+        @DisplayName("Should throw IllegalArgumentException when the speaker is not popular enough")
+        public void checkSpeakerNotPopularTest() {
+            Human human = new Human("Мария", PersonalityType.Optimist, 10, 30);
+            assertThrows(IllegalArgumentException.class, () -> podium.setSpeaker(human));
+        }
     }
 }

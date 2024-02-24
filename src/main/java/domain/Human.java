@@ -17,7 +17,7 @@ public class Human {
     }
 
     public void addressMessageToCrowd(Crowd crowd, Message message) {
-        if (crowd.getHumansCount() < 0) throw new IllegalArgumentException("Crowd is empty");
+        if (crowd.getHumansCount() == 0) throw new IllegalArgumentException("Crowd is empty");
         if (message == Message.GOOD) {
             crowd.increaseEmotionalUplift(10);
         } else if (message == Message.BAD) {
@@ -27,7 +27,7 @@ public class Human {
     }
 
     public void addressMessageToCrowdFromPodium(Crowd crowd, Message message) {
-        if (crowd.getHumansCount() < 0) throw new IllegalArgumentException("Crowd is empty");
+        if (crowd.getHumansCount() == 0) throw new IllegalArgumentException("Crowd is empty");
         if (message == Message.GOOD) {
             crowd.increaseEmotionalUplift(25);
         } else if (message == Message.BAD) {
