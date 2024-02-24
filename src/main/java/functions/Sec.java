@@ -8,12 +8,14 @@ public class Sec {
     public double sec(double x, int n) throws IllegalArgumentException {
         if (n > 30) throw new IllegalArgumentException("The decomposition order is too large");
         double sec = 0;
+        int sign = 1;
         x = bringXtoFirstTurnOfCircle(x);
         if (Math.abs(x) > Math.PI / 2) {
-            if (x > 0) x = Math.PI - x;
-            else x = -Math.PI - x;
+            if (x > 0) x = -Math.PI + x;
+            else x = Math.PI + x;
+            sign = -1;
         }
-        double eps =  1e-5;
+        double eps =  0.0999;
         if (Math.abs(x - Math.PI / 2) < eps || Math.abs(x + Math.PI / 2) < eps) throw new IllegalArgumentException("The function is not defined for this value");
         double factorial = 1;
         int t = 1;
@@ -26,7 +28,7 @@ public class Sec {
             double E = mathUtils.calcEulerNumber(2 * k);
             sec += Math.pow(-1, k) * E * Math.pow(x, 2 * k) * factorial;
         }
-        return sec;
+        return sec * sign;
     }
 
 
