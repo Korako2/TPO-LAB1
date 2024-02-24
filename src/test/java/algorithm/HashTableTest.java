@@ -8,9 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HashTableTest {
     @Test
     public void illegalBucketNumber() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new HashTable<String>(0);
-        });
+        assertThrows(IllegalArgumentException.class, () -> new HashTable<String>(0));
     }
 
     @Test
