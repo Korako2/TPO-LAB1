@@ -2,13 +2,17 @@ package algorithm;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HashTableTest {
-    @Test
-    public void illegalBucketNumber() {
-        assertThrows(IllegalArgumentException.class, () -> new HashTable<String>(0));
+    @ParameterizedTest
+    @DisplayName("Illegal bucket number")
+    @ValueSource(ints = {0, -1})
+    public void illegalBucketNumber(int n) {
+        assertThrows(IllegalArgumentException.class, () -> new HashTable<String>(n));
     }
 
     @Test

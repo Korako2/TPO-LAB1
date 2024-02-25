@@ -31,7 +31,15 @@ class SecTest {
     @ParameterizedTest
     @DisplayName("Should throw IllegalArgumentException if x = PI/2 + PIk")
     @ValueSource(doubles = {PI / 2, -PI / 2, 3 * PI / 2, 201 * PI / 2, -1000001 * PI / 2})
-    void checkPointsOfUncertainty(double x) {
+    void checkPIPointsOfUncertainty(double x) {
+        assertAll(
+                () -> assertThrows(IllegalArgumentException.class, () -> sec.sec(x, 30))
+        );
+    }
+    @ParameterizedTest
+    @DisplayName("Should throw IllegalArgumentException if x is no further from PI/2 + PIk than 0.0999")
+    @ValueSource(doubles = {-PI / 2 - 0.0998, PI / 2 + 0.0998, PI / 2 - 0.0998, -PI / 2 + 0.0998, -PI / 2 - 0.0998999999})
+    void checkPointsOfUncertainty(double x ) {
         assertAll(
                 () -> assertThrows(IllegalArgumentException.class, () -> sec.sec(x, 30))
         );
@@ -48,7 +56,7 @@ class SecTest {
 
     @ParameterizedTest
     @DisplayName("Check arguments close to uncertainty points")
-    @ValueSource(doubles = {101 * PI / 2 + 0.1, PI / 2 - 0.1, PI / 2 + 0.1, -PI / 2 + 0.1, -PI / 2 - 0.1})
+    @ValueSource(doubles = {-PI / 2 + 0.0999, 101 * PI / 2 + 0.1, PI / 2 - 0.1, PI / 2 + 0.1, -PI / 2 - 0.1})
     void checkArgumentsCloseToUncertainty(double x) {
         assertAll(
                 () -> assertEquals((double) 1 / Math.cos(x), sec.sec(x, 30), 0.3)
