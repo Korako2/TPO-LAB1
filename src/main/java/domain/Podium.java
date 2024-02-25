@@ -2,8 +2,8 @@ package domain;
 
 import lombok.Getter;
 
+@Getter
 public class Podium {
-    @Getter
     private Human speaker;
 
     public void setSpeaker(Human newSpeaker) {

@@ -29,6 +29,7 @@ public class Crowd {
         humans.remove(human);
         emotionalUplift = calcEmotionalUplift();
     }
+
     public void clearHuman() {
         humans.clear();
         emotionalUplift = calcEmotionalUplift();
@@ -41,7 +42,8 @@ public class Crowd {
     public void increaseEmotionalUplift(int amount) {
         if (amount <= 0) throw new IllegalArgumentException("Amount should be positive");
         if (amount > 100) throw new IllegalArgumentException("Amount should be less than 100");
-        if (emotionalUplift == MAX_EMOTIONAL_UPLIFT) throw new IllegalArgumentException("Emotional uplift is the maximum possible");
+        if (emotionalUplift == MAX_EMOTIONAL_UPLIFT)
+            throw new IllegalArgumentException("Emotional uplift is the maximum possible");
         increaseHumansEmotionalUplift(amount);
         emotionalUplift = calcEmotionalUplift();
     }
@@ -49,10 +51,12 @@ public class Crowd {
     public void reduceEmotionalUplift(int amount) {
         if (amount <= 0) throw new IllegalArgumentException("Amount should be positive");
         if (amount > 100) throw new IllegalArgumentException("Amount should be less than 100");
-        if (emotionalUplift == MIN_EMOTIONAL_UPLIFT) throw new IllegalArgumentException("Emotional uplift is the minimum possible");
+        if (emotionalUplift == MIN_EMOTIONAL_UPLIFT)
+            throw new IllegalArgumentException("Emotional uplift is the minimum possible");
         reduceHumansEmotionalUplift(amount);
         emotionalUplift = calcEmotionalUplift();
     }
+
     private double calcEmotionalUplift() {
         int amountEmotionalUplift = 0;
         for (Human human : humans) {
@@ -65,7 +69,8 @@ public class Crowd {
         for (Human human : humans) {
             if (human.getPersonalityType().getEmotionalUpliftCoefficient() * amount + human.getEmotionalUplift() > MAX_EMOTIONAL_UPLIFT)
                 human.setEmotionalUplift(MAX_EMOTIONAL_UPLIFT);
-            else human.setEmotionalUplift((int) Math.round(human.getPersonalityType().getEmotionalUpliftCoefficient() * amount + human.getEmotionalUplift()));
+            else
+                human.setEmotionalUplift((int) Math.round(human.getPersonalityType().getEmotionalUpliftCoefficient() * amount + human.getEmotionalUplift()));
         }
     }
 
@@ -73,9 +78,11 @@ public class Crowd {
         for (Human human : humans) {
             if (human.getEmotionalUplift() - 1 / human.getPersonalityType().getEmotionalUpliftCoefficient() * amount < MIN_EMOTIONAL_UPLIFT)
                 human.setEmotionalUplift(MIN_EMOTIONAL_UPLIFT);
-            else human.setEmotionalUplift((int) Math.round(human.getEmotionalUplift() - 1 / human.getPersonalityType().getEmotionalUpliftCoefficient() * amount));
+            else
+                human.setEmotionalUplift((int) Math.round(human.getEmotionalUplift() - 1 / human.getPersonalityType().getEmotionalUpliftCoefficient() * amount));
         }
     }
+
     public void cheer() {
         if (emotionalUplift >= 80) {
             System.out.println("Толпа в полнейшем восторге! Раздаются ликующие крики!");

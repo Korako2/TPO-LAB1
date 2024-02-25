@@ -12,13 +12,14 @@ public class SceneTest {
     @Nested
     public class CrowdTest {
         private Crowd crowd;
+
         @BeforeEach
         public void init() {
             Set<Human> humans = new HashSet<>(Arrays.asList(
                     new Human("Иван", PersonalityType.Optimist, 10, 0),
                     new Human("Валерий", PersonalityType.Pessimist, 0, 0),
                     new Human("Аркадий", PersonalityType.Realist, 5, 0)
-                    ));
+            ));
             crowd = new Crowd(humans);
         }
 
@@ -88,6 +89,7 @@ public class SceneTest {
         public void checkNegativeAmountWhenIncreaseTest() {
             assertThrows(IllegalArgumentException.class, () -> crowd.increaseEmotionalUplift(-1));
         }
+
         @Test
         @DisplayName("Should throw IllegalArgumentException when reduce uplift and amount is negative")
         public void checkNegativeAmountWhenReduceTest() {
@@ -112,6 +114,7 @@ public class SceneTest {
             crowd.setEmotionalUplift(100);
             assertThrows(IllegalArgumentException.class, () -> crowd.increaseEmotionalUplift(1));
         }
+
         @Test
         @DisplayName("Should throw IllegalArgumentException when reduce uplift and uplift is the minimum possible")
         public void checkMinUpliftWhenReduceTest() {
@@ -139,10 +142,12 @@ public class SceneTest {
             assertEquals(0, crowd.getEmotionalUplift());
         }
     }
+
     @Nested
     public class HumanTest {
         private Human human;
         private Crowd crowd;
+
         @BeforeEach
         public void init() {
             human = new Human("Мария", PersonalityType.Optimist, 10, 0);
@@ -159,6 +164,7 @@ public class SceneTest {
             human.addressMessageToCrowd(crowd, Message.GOOD);
             assertEquals(15, crowd.getEmotionalUplift());
         }
+
         @Test
         @DisplayName("Check the bad massage to the crowd")
         public void addressBadMessageToCrowdTest() {
@@ -193,6 +199,7 @@ public class SceneTest {
             human.addressMessageToCrowdFromPodium(crowd, Message.BAD);
             assertEquals(0, crowd.getEmotionalUplift(), 0.01);
         }
+
         @Test
         @DisplayName("Check the neutral message to the crowd from the podium")
         public void addressNeutralMessageToCrowdFromPodiumTest() {
@@ -226,6 +233,7 @@ public class SceneTest {
             podium.setSpeaker(human);
             assertEquals(human, podium.getSpeaker());
         }
+
         @Test
         @DisplayName("Should throw IllegalArgumentException when the speaker is not popular enough")
         public void checkSpeakerNotPopularTest() {

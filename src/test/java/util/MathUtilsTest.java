@@ -1,6 +1,5 @@
 package util;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MathUtilsTest {
 
-    private MathUtils mathUtils = new MathUtils();
+    private final MathUtils mathUtils = new MathUtils();
 
     @Test
     @DisplayName("Calculate factorial")
