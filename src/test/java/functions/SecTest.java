@@ -63,5 +63,22 @@ class SecTest {
         );
     }
 
+    @ParameterizedTest
+    @DisplayName("Check the parity of the function")
+    @ValueSource(doubles = {2 * PI / 3, -PI / 2 + 0.3 , 15 * PI, 201.6 * PI / 2, -1000000 * PI})
+    void checkParity(double x) {
+        assertAll(
+                () -> assertEquals(sec.sec(x, 30), sec.sec(-x, 30), 0.0001)
+        );
+    }
+
+    @ParameterizedTest
+    @DisplayName("Check the period of the function")
+    @ValueSource(doubles = {2 * PI / 3, -PI / 2 + 0.3 , 15 * PI, 201.6 * PI / 2, -1000000 * PI})
+    void checkPeriod(double x) {
+        assertAll(
+                () -> assertEquals(sec.sec(x, 30), sec.sec(x + 2 * PI, 30), 0.0001)
+        );
+    }
 
 }
