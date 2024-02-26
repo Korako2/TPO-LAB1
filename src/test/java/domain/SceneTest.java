@@ -141,6 +141,54 @@ public class SceneTest {
             crowd.reduceEmotionalUplift(50);
             assertEquals(0, crowd.getEmotionalUplift());
         }
+
+        @Test
+        @DisplayName("Check null set of humans")
+        public void checkNullSetOfHumansTest() {
+            crowd.clearHuman();
+            assertThrows(IllegalArgumentException.class, () -> new Crowd(null));
+        }
+
+        @Test
+        @DisplayName("Check the addition of a null human")
+        public void checkAddNullHumanTest() {
+            assertThrows(IllegalArgumentException.class, () -> crowd.addHuman(null));
+        }
+
+        @Test
+        @DisplayName("Check the kick of a null human")
+        public void checkKickNullHumanTest() {
+            assertThrows(IllegalArgumentException.class, () -> crowd.kickHuman(null));
+        }
+
+        @Test
+        @DisplayName("Check null in set of human in creation crowd")
+        public void checkNullInSetOfHumanInCreationCrowdTest() {
+            assertThrows(IllegalArgumentException.class, () -> new Crowd(new HashSet<>(Arrays.asList(
+                    new Human("Иван", PersonalityType.Optimist, 10, 0),
+                    new Human("Валерий", PersonalityType.Pessimist, 0, 0),
+                    new Human("Аркадий", PersonalityType.Realist, 5, 0),
+                    null
+            ))));
+        }
+
+        @Test
+        @DisplayName("Check suman of emotional uplift when the crowd is empty")
+        public void checkSumOfEmotionalUpliftWhenEmptyCrowdTest() {
+            Crowd crowd = new Crowd(new HashSet<>());
+            assertTrue(Double.isNaN(crowd.getEmotionalUplift()));
+        }
+
+        @Test
+        @DisplayName("Check doudle delete of human")
+        public void checkDoubleDeleteOfHumanTest() {
+            Human human = new Human
+                    ("Генадий", PersonalityType.Realist, 5, 0);
+            crowd.addHuman(human);
+            crowd.kickHuman(human);
+            crowd.kickHuman(human);
+            assertEquals(3, crowd.getHumansCount());
+        }
     }
 
     @Nested
@@ -212,6 +260,12 @@ public class SceneTest {
         public void checkAddressMessageToEmptyCrowdFromPodiumTest() {
             Crowd crowd = new Crowd(new HashSet<>());
             assertThrows(IllegalArgumentException.class, () -> human.addressMessageToCrowd(crowd, Message.GOOD));
+        }
+
+        @Test
+        @DisplayName("Check the creation of a human with a negative emotional uplift")
+        public void checkNegativeEmotionalUpliftTest() {
+            assertThrows(IllegalArgumentException.class, () -> new Human("Мария", PersonalityType.Optimist, -10, 0));
         }
     }
 

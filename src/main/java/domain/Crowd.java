@@ -16,16 +16,20 @@ public class Crowd {
     private final int MIN_EMOTIONAL_UPLIFT = 0;
 
     public Crowd(Set<Human> humans) {
+        if (humans == null) throw new IllegalArgumentException("Humans cannot be null");
+        if (humans.contains(null)) throw new IllegalArgumentException("Humans cannot contain null");
         this.humans = humans;
         this.emotionalUplift = calcEmotionalUplift();
     }
 
     public void addHuman(Human human) {
+        if (human == null) throw new IllegalArgumentException("Human cannot be null");
         humans.add(human);
         emotionalUplift = calcEmotionalUplift();
     }
 
     public void kickHuman(Human human) {
+        if (human == null) throw new IllegalArgumentException("Human cannot be null");
         humans.remove(human);
         emotionalUplift = calcEmotionalUplift();
     }

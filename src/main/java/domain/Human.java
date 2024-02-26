@@ -12,6 +12,7 @@ public class Human {
     public Human(String name, PersonalityType personalityType, int emotionalUplift, int crowdApprovalLevel) {
         this.name = name;
         this.personalityType = personalityType;
+        if (emotionalUplift < 0 || emotionalUplift > 100) throw new IllegalArgumentException("Emotional uplift should be between 0 and 100");
         this.emotionalUplift = emotionalUplift;
         this.crowdApprovalLevel = crowdApprovalLevel;
     }
