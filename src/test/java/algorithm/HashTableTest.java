@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HashTableTest {
@@ -70,4 +72,94 @@ class HashTableTest {
         HashTable<String> table = new HashTable<>(5);
         assertNull(table.delete(0));
     }
+
+    @Test
+    @DisplayName("Attempt to re-delete")
+    public void reDelete() {
+        HashTable<String> table = new HashTable<>(5);
+        assertNull(table.put(0, "Ivan Varyukhin"));
+        assertEquals("Ivan Varyukhin", table.get(0));
+        assertEquals("Ivan Varyukhin", table.delete(0));
+        assertNull(table.get(0));
+        assertNull(table.delete(0));
+    }
+
+    @Test
+    @DisplayName("Check adding to the correct bucket")
+    public void checkAddingToCorrectBucket() {
+        HashTable<String> table = new HashTable<>(5);
+        String[] names = new String[]{"Ivan Varyukhin", "Arkhip Ryabokon", "Chernova Elizabeth", "Kanukova Eva", "Pavel Solovyov"};
+        int[] keys = new int[]{0, 6, 7, 8, 9};
+        for (int i = 0; i < names.length; i ++) {
+            assertNull(table.put(keys[i], names[i]));
+        }
+        List<List<String>> buckets = table.getBuckets();
+        for (int i = 0; i < names.length; i++) {
+            assertEquals(names[i], buckets.get(keys[i] % 5).get(0));
+        }
+    }
+    @Test
+    @DisplayName("Check correct bucket size")
+    public void checkCorrectBucketSize() {
+        HashTable<String> table = new HashTable<>(5);
+        String[] names = new String[]{"Ivan Varyukhin", "Arkhip Ryabokon", "Chernova Elizabeth", "Kanukova Eva", "Pavel Solovyov"};
+        int[] keys = new int[]{0, 6, 7, 8, 9};
+        for (int i = 0; i < names.length; i ++) {
+            assertNull(table.put(keys[i], names[i]));
+        }
+        List<List<String>> buckets = table.getBuckets();
+        for (int i = 0; i < names.length; i++) {
+            assertEquals(1, buckets.get(keys[i] % 5).size());
+        }
+    }
+
+    @Test
+    @DisplayName("Check the correctness of the collision when adding to the basket")
+    public void checkCollisionAddingToBucket() {
+        HashTable<String> table = new HashTable<>(5);
+        assertNull(table.put(0, "Ivan Varyukhin"));
+        assertNull(table.put(5, "Arkhip Ryabokon"));
+        assertNull(table.put(10, "Chernova Elizabeth"));
+        List<List<String>> buckets = table.getBuckets();
+        assertEquals("Ivan Varyukhin", buckets.get(0).get(0));
+        assertEquals("Arkhip Ryabokon", buckets.get(0).get(1));
+        assertEquals("Chernova Elizabeth", buckets.get(0).get(2));
+    }
+
+    @Test
+    @DisplayName("Check the correct bucket size when adding to the basket with collision")
+    public void checkCorrectBucketSizeWithCollision() {
+        HashTable<String> table = new HashTable<>(5);
+        String[] names = new String[]{"Ivan Varyukhin", "Arkhip Ryabokon", "Chernova Elizabeth", "Kanukova Eva"};
+        int[] keys = new int[]{0, 5, 10, 11};
+        for (int i = 0; i < names.length; i ++) {
+            assertNull(table.put(keys[i], names[i]));
+        }
+        List<List<String>> buckets = table.getBuckets();
+        System.out.println(buckets);
+        int[] size = new int[]{3, 1, 0, 0, 0};
+        for (int i = 0; i < names.length; i++) {
+            assertEquals(size[i], buckets.get(i).size());
+        }
+    }
+
+    @Test
+    @DisplayName("Check the correct deletion in the trash in case of a collision")
+    public void checkCorrectDeletionInBucketWithCollision() {
+        HashTable<String> table = new HashTable<>(5);
+        assertNull(table.put(0, "Ivan Varyukhin"));
+        assertNull(table.put(5, "Arkhip Ryabokon"));
+        assertNull(table.put(10, "Chernova Elizabeth"));
+        assertEquals("Ivan Varyukhin", table.delete(0));
+        assertNull(table.get(0));
+        List<List<String>> buckets = table.getBuckets();
+        assertEquals("Arkhip Ryabokon", buckets.get(0).get(0));
+        assertEquals("Chernova Elizabeth", buckets.get(0).get(1));
+        assertEquals("Chernova Elizabeth", table.delete(10));
+        assertNull(table.get(10));
+        assertEquals("Arkhip Ryabokon", buckets.get(0).get(0));
+    }
+
+
+
 }

@@ -1,5 +1,7 @@
 package algorithm;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +16,6 @@ public class HashTable<V> {
             this.value = value;
         }
     }
-
     private final List<List<Entry>> buckets;
 
     public HashTable(int nBuckets) {
@@ -64,6 +65,18 @@ public class HashTable<V> {
         }
 
         return null;
+    }
+
+    public List<List<V>> getBuckets() {
+        List<List<V>> result = new ArrayList<>();
+        for (List<Entry> bucket : buckets) {
+            List<V> values = new ArrayList<>();
+            for (Entry entry : bucket) {
+                values.add(entry.value);
+            }
+            result.add(values);
+        }
+        return result;
     }
 
     private int hashKey(Integer key) {
