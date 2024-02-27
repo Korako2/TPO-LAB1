@@ -160,6 +160,12 @@ class HashTableTest {
         assertEquals("Arkhip Ryabokon", buckets.get(0).get(0));
     }
 
-
+    @Test
+    @DisplayName("Check null value")
+    public void checkNullValue() {
+        HashTable<String> table = new HashTable<>(5);
+        assertNull(table.put(0, null));
+        assertThrows(NullPointerException.class, () -> table.get(0));
+    }
 
 }
